@@ -46,9 +46,23 @@ async function run() {
             res.send(result);
         });
 
+        app.get('/bookings', async (req, res) => {
+            const queryEmail = req.query?.email;
+            const query = { email: queryEmail };
+            const result = await bookingColection.find(query).toArray();
+            res.send(result);
+        });
+
         app.post('/bookings', async (req, res) => {
             const booking = req.body;
             const result = await bookingColection.insertOne(booking);
+            res.send(result);
+        });
+
+        app.delete('/bookings/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await bookingColection.deleteOne(query);
             res.send(result);
         });
 
